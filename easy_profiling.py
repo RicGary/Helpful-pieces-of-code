@@ -1,12 +1,12 @@
-def test():
-    return [x for x in range(100_000)]
+def test(n):
+    return [x for x in range(n)]
 
-def main(func):
+def main(func, *args):
     import cProfile
     import pstats
 
     with cProfile.Profile() as pr:
-        func()
+        func(*args)
 
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
@@ -14,4 +14,4 @@ def main(func):
     stats.print_stats()
     stats.dump_stats(filename="needs_profiling.prof")
 
-main(test)
+main(test, 100_000)
