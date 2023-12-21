@@ -10,6 +10,9 @@ from smtplib import SMTPAuthenticationError
 def send_email(subject: str, body: str) -> bool:
     """
     Function to send email to multiple receivers.
+    
+    How to run it?
+    Watch -> https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
 
     Args:
         subject (str): Title of email
@@ -21,13 +24,13 @@ def send_email(subject: str, body: str) -> bool:
     config = ConfigParser()
     config.read("EmailSend\config.ini")
 
-    email_sender = config['MAIN_BOT_USER']['email']
+    email_sender   = config['MAIN_BOT_USER']['email']
     email_password = config['MAIN_BOT_USER']['password']
     email_receiver = [config['EMAILS'][name] for name in config['EMAILS']]
 
-    email = EmailMessage()
-    email['From'] = email_sender
-    email['To'] = email_receiver
+    email            = EmailMessage()
+    email['From']    = email_sender
+    email['To']      = email_receiver
     email['Subject'] = subject
     email.set_content(body)
 
@@ -37,10 +40,11 @@ def send_email(subject: str, body: str) -> bool:
     try:
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
             smtp.login(user=email_sender, password=email_password)
+
             smtp.sendmail(
-                from_addr=email_sender,
-                to_addrs=email_receiver,
-                msg=email.as_string()
+                from_addr = email_sender,
+                to_addrs  = email_receiver,
+                msg       = email.as_string()
                 )
             
         print(f"Email sent at {date.today()}.")
@@ -60,10 +64,7 @@ Error:
 """
         )
         
-    
-    
-
-
+        
 if __name__ == "__main__":
     send_email(
         subject=f"Testing bot {date.today()}.",
